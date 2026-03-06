@@ -1,0 +1,39 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --danger: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    --shadow: 0 20px 40px rgba(0,0,0,0.1);
+    --radius: 20px;
+}
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #0b5bdb 100%);
+    min-height: 100vh;
+}
+.navbar { background: var(--primary); box-shadow: var(--shadow); }
+.navbar-brand { color: white !important; font-weight: 800; font-size: 1.5rem; }
+.card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+.card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.15); }
+.form-control {
+    border-radius: 15px;
+    border: 2px solid #e9ecef;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+.form-control:focus { border-color: #667eea; box-shadow: 0 0 0 0.2rem rgba(102,126,234,0.25); }
+.btn {
+    border-radius: 25px;
+    padding: 12px 30px;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+}
+.btn-primary { background: var(--primary); color: rgb(255, 255, 255); }
+.btn-success { background: var(--success); color: white; }
+.btn-danger { background: var(--danger); color: rgb(255, 255, 255); }
