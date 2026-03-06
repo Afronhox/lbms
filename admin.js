@@ -1,78 +1,60 @@
-// Protection admin
-if (sessionStorage.getItem('userRole') !== 'admin') {
-    window.location.href = 'client.html';
-}
+import express from 'express';
+import multer from 'multer';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import mysql from 'mysql2/promise';
 
-let editingId = null;
+const router = express.Router();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-async function loadBooks() {
-    try {
-        const response = await fetch('/api/admin/books');
-        const books = await response.json();
-        renderBooks(books);
-    } catch (error) {
-        document.getElementById('adminBooksList').innerHTML = '<div class="alert alert-danger">Erreur</div>';
-    }
-}
+const storage = multer.diskStorage({
+    destination: 'public/uploads/',
+    filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
+});
+const upload = multer({ storage });
+const dbConfig = { host: 'localhost', user: 'root', password: '', database: 'library_system' };
 
-function renderBooks(books) {
-    document.getElementById('adminBooksList').innerHTML = books.map(book => `
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <img src="${book.image || 'https://picsum.photos/300/300?random'}" class="card-img-top" style="height: 200px">
-                <div class="card-body">
-                    <h5>${book.title}</h5>
-                    <p>Prix: $${book.price} | Stock: ${book.stock}</p>
-                    <div class="btn-group w-100">
-                        <button class="btn btn-warning" onclick="editBook(${book.id})">Modifier</button>
-                        <button class="btn btn-danger" onclick="deleteBook(${book.id})">Supprimer</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `).join('');
-}
-
-document.getElementById('bookForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    if (editingId) formData.append('id', editingId);
-    
-    const endpoint = editingId ? '/api/admin/update' : '/api/admin/add';
-    const response = await fetch(endpoint, { method: 'POST', body: formData });
-    const data = await response.json();
-    
-    alert(data.message);
-    if (data.success) {
-        e.target.reset();
-        editingId = null;
-        document.querySelector('#bookForm button[type="submit"]').textContent = 'Ajouter';
-        loadBooks();
-    }
+router.get('/books', async (req, res) => {
+    const db = await mysql.createConnection(dbConfig);
+    const [rows] = await db.execute('SELECT * FROM books ORDER BY created_at DESC');
+    await db.end();
+    res.json(rows);
 });
 
-async function editBook(id) {
-    const response = await fetch(`/api/admin/book/${id}`);
-    const book = await response.json();
-    document.getElementById('title').value = book.title;
-    document.getElementById('price').value = book.price;
-    document.getElementById('stock').value = book.stock;
-    editingId = id;
-    document.querySelector('#bookForm button[type="submit"]').textContent = 'Modifier';
-}
+router.post('/add', upload.single('image'), async (req, res) => {
+    const { title, price, stock } = req.body;
+    const image = req.file ? `/uploads/${req.file.filename}` : null;
+    const db = await mysql.createConnection(dbConfig);
+    await db.execute('INSERT INTO books (title, price, stock, image) VALUES (?, ?, ?, ?)', [title, price, stock, image]);
+    await db.end();
+    res.json({ success: true, message: 'Livre ajouté!' });
+});
 
-async function deleteBook(id) {
-    if (confirm('Supprimer ?')) {
-        const response = await fetch(`/api/admin/delete/${id}`, { method: 'DELETE' });
-        const data = await response.json();
-        alert(data.message);
-        loadBooks();
+router.post('/update', upload.single('image'), async (req, res) => {
+    const { id, title, price, stock } = req.body;
+    const db = await mysql.createConnection(dbConfig);
+    if (req.file) {
+        await db.execute('UPDATE books SET title=?, price=?, stock=?, image=? WHERE id=?', [title, price, stock, `/uploads/${req.file.filename}`, id]);
+    } else {
+        await db.execute('UPDATE books SET title=?, price=?, stock=? WHERE id=?', [title, price, stock, id]);
     }
-}
+    await db.end();
+    res.json({ success: true, message: 'Livre modifié!' });
+});
 
-function logout() {
-    sessionStorage.clear();
-    window.location.href = 'index.html';
-}
+router.delete('/delete/:id', async (req, res) => {
+    const db = await mysql.createConnection(dbConfig);
+    await db.execute('DELETE FROM books WHERE id = ?', [req.params.id]);
+    await db.end();
+    res.json({ success: true, message: 'Livre supprimé!' });
+});
 
-document.addEventListener('DOMContentLoaded', loadBooks);
+router.get('/book/:id', async (req, res) => {
+    const db = await mysql.createConnection(dbConfig);
+    const [rows] = await db.execute('SELECT * FROM books WHERE id = ?', [req.params.id]);
+    await db.end();
+    res.json(rows[0]);
+});
+
+export default router;
