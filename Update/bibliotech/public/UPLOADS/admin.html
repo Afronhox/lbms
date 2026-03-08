@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - BiblioTech</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand text-white" href="#">
+                <span class="me-2">🔧</span>BiblioTech Admin
+            </a>
+            <div class="navbar-nav ms-auto">
+                <button class="btn btn-outline-light" onclick="logout()">Déconnexion</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <!-- Formulaire CRUD -->
+        <div class="card mb-5 p-4">
+            <h2 class="mb-4">📝 Gestion Livres</h2>
+            <form id="bookForm" enctype="multipart/form-data" class="row g-3">
+                <input type="hidden" id="bookId">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="title" placeholder="Titre du livre" required>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" class="form-control" id="price" placeholder="Prix $" step="0.01" min="0" required>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" class="form-control" id="stock" placeholder="Stock" min="0" required>
+                </div>
+                <div class="col-12">
+                    <input type="file" class="form-control" id="image" accept="image/*">
+                </div>
+                <div class="col-12 text-end">
+                    <button type="button" class="btn btn-secondary me-2" id="cancelBtn" onclick="cancelEdit()">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Ajouter Livre</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Liste Livres -->
+        <h2 class="mb-4">📚 Tous les Livres</h2>
+        <div class="row g-4" id="adminBooksList">
+            <!-- Livres admin -->
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+/* --- Variables Globales --- */
+:root {
+    --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --danger: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    --bg-app: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --radius: 20px;
+}
+
+/* --- Reset & Base --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-app);
+    min-height: 100vh;
+    color: #333;
+}
+
+/* --- Navigation (Spécifique Client/Admin) --- */
+.navbar {
+    background: var(--primary) !important;
+    padding: 1rem 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: white !important;
+}
+
+/* --- Mise en page : Centrage Login vs Catalogue --- */
+/* Si la page n'a PAS de navbar (Login/Register), on centre la carte au milieu */
+body:not(:has(nav)) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* --- Conteneur et Grille --- */
+.container {
+    max-width: 1200px;
+}
+
+/* --- Cartes de Livres (Catalogue Client) --- */
+.card {
+    border: none !important;
+    border-radius: var(--radius) !important;
+    box-shadow: var(--shadow);
+    background: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%; /* Pour que toutes les cartes aient la même hauteur */
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.card-body {
+    padding: 1.5rem !important;
+}
+
+/* --- Éléments du Catalogue --- */
+.display-3 {
+    color: #2d3436;
+    letter-spacing: -2px;
+}
+
+.lead {
+    color: #636e72 !important;
+}
+
+/* Style pour les images que tu vas charger via JS */
+#booksList img, #adminBooksList img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-top-left-radius: var(--radius);
+    border-top-right-radius: var(--radius);
+}
+
+/* --- Boutons --- */
+.btn {
+    border-radius: 12px !important;
+    padding: 10px 25px !important;
+    font-weight: 700 !important;
+    transition: all 0.3s ease;
+}
+
+.btn-primary { background: var(--primary) !important; color: white !important; }
+.btn-outline-light {
+    border: 2px solid rgba(255,255,255,0.6) !important;
+}
+
+.btn-outline-light:hover {
+    background: white !important;
+    color: #764ba2 !important;
+}
+
+/* --- Formulaires (Admin & Login) --- */
+.form-control {
+    border-radius: 12px !important;
+    padding: 12px !important;
+    border: 2px solid #edf2f7 !important;
+}
+
+.form-control:focus {
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1) !important;
+}

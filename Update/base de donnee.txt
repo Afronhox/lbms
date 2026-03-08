@@ -1,0 +1,46 @@
+Création de la Base de Données
+SQL
+
+CREATE DATABASE library_system;
+USE library_system;
+
+2. Création de la table users
+
+C'est ici que sont stockés tes administrateurs et tes clients.
+Note : Le mot de passe sera haché avec bcrypt, donc il doit être stocké en VARCHAR(255).
+SQL
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'client') DEFAULT 'client',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+3. Création de la table books
+
+Cette table gère l'inventaire de ta bibliothèque.
+SQL
+
+CREATE TABLE books (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    stock INT NOT NULL DEFAULT 0,
+    image VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+⚠️ Important : Créer ton premier Admin
+
+Par défaut, le code d'inscription crée des clients. Pour accéder à ta page admin.html, tu dois insérer manuellement ton compte administrateur dans la base de données via SQL, car il n'y a pas de formulaire d'inscription admin (par mesure de sécurité).
+
+Exécute cette commande pour créer un admin (remplace mon_admin et mon_mot_de_passe par tes choix) :
+SQL
+
+-- Attention : le mot de passe doit être haché. 
+-- Pour tester, utilise un outil en ligne pour hacher ton mot de passe 
+-- ou insère-le en clair temporairement pour le changer après.
+INSERT INTO users (username, password, role) 
+VALUES ('admin', '$2b$10$e/3K3qU/V.N.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X.X',

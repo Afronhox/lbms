@@ -1,0 +1,122 @@
+/* --- Variables Globales --- */
+:root {
+    --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --danger: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    --bg-app: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --radius: 15px;
+}
+
+/* --- Reset & Base --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-app);
+    min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* --- Barre de Navigation (Navbar) --- */
+.navbar {
+    background: var(--primary) !important;
+    padding: 1rem 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    margin-bottom: 2rem;
+}
+
+.navbar-brand {
+    font-weight: 800 !important;
+    font-size: 1.5rem !important;
+}
+
+/* --- Mise en page adaptative --- */
+/* Pour Login/Register : On centre tout au milieu de l'écran */
+body:not(:has(nav)) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Pour Admin/Client : On utilise le container standard de Bootstrap */
+.container {
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* --- Cartes (Cards) --- */
+.card {
+    border: none !important;
+    border-radius: var(--radius) !important;
+    box-shadow: var(--shadow);
+    background: white;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+/* Sur les pages Login/Register, on limite la largeur de la carte */
+body:not(:has(nav)) .card {
+    width: 100%;
+    max-width: 400px;
+}
+
+.card-body {
+    padding: 2rem !important;
+}
+
+/* --- Formulaires --- */
+.form-control {
+    border-radius: 10px !important;
+    padding: 12px 15px !important;
+    border: 2px solid #f0f2f5 !important;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1) !important;
+}
+
+/* --- Boutons --- */
+.btn {
+    border-radius: 10px !important;
+    padding: 12px 20px !important;
+    font-weight: 700 !important;
+    border: none !important;
+    transition: transform 0.2s ease, opacity 0.2s;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary { background: var(--primary) !important; color: white !important; }
+.btn-success { background: var(--success) !important; color: white !important; }
+.btn-secondary { background: #e9ecef !important; color: #495057 !important; }
+
+/* --- Spécifique Admin (Gestion Livres) --- */
+/* On s'assure que le formulaire admin prend bien la largeur du container */
+#bookForm .col-md-6, #bookForm .col-md-3 {
+    margin-bottom: 10px;
+}
+
+/* Grille de livres */
+.row.g-4 {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Style pour les images de livres dans la liste */
+.book-card-img {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+}

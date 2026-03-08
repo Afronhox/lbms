@@ -1,0 +1,1 @@
+npm install express express-session mysql2 bcrypt multer

@@ -1,0 +1,88 @@
+/* --- Variables et Reset --- */
+:root {
+    --primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --danger: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    --shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    --radius: 20px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Centrage pour Login & Register --- */
+/* On cible les containers qui sont dans une page de login/register */
+body:not(:has(nav)) {
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* --- Barre de Navigation --- */
+.navbar {
+    background: var(--primary) !important;
+    padding: 15px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 100%;
+}
+
+/* --- Cartes (Fix pour l'aspect tout petit) --- */
+.card {
+    border: none !important;
+    border-radius: var(--radius) !important;
+    box-shadow: var(--shadow);
+    background: white;
+    width: 100%;
+    max-width: 450px; /* Empêche la carte d'être trop large ou trop petite */
+    margin: auto;
+    transition: transform 0.3s ease;
+}
+
+.card-body {
+    padding: 2.5rem !important; /* Donne de l'air à l'intérieur */
+}
+
+/* --- Formulaires --- */
+.form-control {
+    border-radius: 12px !important;
+    padding: 15px !important;
+    border: 2px solid #f0f2f5 !important;
+    margin-bottom: 10px;
+}
+
+.form-control:focus {
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.1) !important;
+}
+
+/* --- Boutons --- */
+.btn {
+    border-radius: 12px !important;
+    padding: 14px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px;
+    border: none !important;
+    width: 100%; /* Largeur totale dans la carte */
+}
+
+.btn-primary { background: var(--primary) !important; color: white !important; }
+.btn-success { background: var(--success) !important; color: white !important; }
+
+/* --- Ajustement pour les listes de livres (Admin/Client) --- */
+.container.my-5 {
+    flex: 1;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Grille de livres : pour que les cartes ne soient pas géantes sur Admin/Client */
+#adminBooksList .card, #booksList .card {
+    max-width: 100%; 
+}
